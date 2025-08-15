@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="author" content="<%= config.SEO.author %>">
+    <meta name="keywords" content="<%= config.SEO.keywords %>">
+    <meta name="description" content="<%= config.SEO.description %>">
+    <title><%= config.title %></title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      h1 {
+        color: #333;
+      }
+      body {
+        padding: 5px;
+      }
+    </style>
+    <link rel="stylesheet" href="./css/index.css" />
+    <script src="./js/index.js"></script>
+  </head>
+  <body>
+    <div class="button-container">
+      <% config.menu.forEach((item, index) => { %>
+        <button class="button" onclick="changePage('<%= item.path %>')">
+          <%= item.name %>
+        </button>
+      <% }); %>
+    </div>    
+    <header>
+      <h1><%= config.title %></h1>
+    </header>
+    <main><%- content %></main>
+  </body>
+</html>
+
+<script>
+  function changePage(path) {
+    window.location.href = path + '.html';
+  }
+</script>
