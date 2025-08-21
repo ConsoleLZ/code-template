@@ -44,7 +44,6 @@ function createWindow() {
 	// Test active push message to Renderer-process.
 	win.webContents.on('did-finish-load', () => {
 		win.show();
-		win?.webContents.send('main-process-message', new Date().toLocaleString());
 	});
 
 	ipcMain.handle('child-process-message', (_e, appName: string) => {
@@ -57,11 +56,16 @@ function createWindow() {
 	});
 
 	ipcMain.handle('maximize-window', () => {
+		let hasMaximize = null
 		if (win.isMaximized()) {
 			win.unmaximize(); // 如果已最大化，则恢复
+			hasMaximize = false
 		} else {
 			win.maximize(); // 最大化
+			hasMaximize = true
 		}
+
+		win.webContents.send('hasMaximize', hasMaximize)
 	});
 
 	ipcMain.handle('close-window', () => {

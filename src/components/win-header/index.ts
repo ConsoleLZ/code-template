@@ -1,5 +1,6 @@
 import {defineComponent, onMounted, reactive, toRefs} from 'vue'
 import squareIcon from '@/assets/icon/square.png'
+import splitIcon from '@/assets/icon/split.png'
 
 export default defineComponent({
     setup(){
@@ -27,6 +28,14 @@ export default defineComponent({
             const headerPlaceholderDom = document.querySelector('.header-placeholder') as HTMLDivElement
 
             headerPlaceholderDom.style.height = headerDom.offsetHeight + 'px'
+        })
+
+        window.ipcRenderer.on('hasMaximize', (_e, hasMaximize)=>{
+            if(hasMaximize){
+                state.menuDynamicsIcon = splitIcon
+            }else {
+                state.menuDynamicsIcon = squareIcon
+            }
         })
 
         return {

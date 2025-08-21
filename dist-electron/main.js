@@ -25,7 +25,6 @@ function createWindow() {
   }
   win.webContents.on("did-finish-load", () => {
     win.show();
-    win == null ? void 0 : win.webContents.send("main-process-message", (/* @__PURE__ */ new Date()).toLocaleString());
   });
   ipcMain.handle("child-process-message", (_e, appName) => {
     console.log(appName);
@@ -34,11 +33,15 @@ function createWindow() {
     win.minimize();
   });
   ipcMain.handle("maximize-window", () => {
+    let hasMaximize = null;
     if (win.isMaximized()) {
       win.unmaximize();
+      hasMaximize = false;
     } else {
       win.maximize();
+      hasMaximize = true;
     }
+    win.webContents.send("hasMaximize", hasMaximize);
   });
   ipcMain.handle("close-window", () => {
     win.close();
