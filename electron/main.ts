@@ -43,12 +43,29 @@ function createWindow() {
 
 	// Test active push message to Renderer-process.
 	win.webContents.on('did-finish-load', () => {
-		win.show()
+		win.show();
 		win?.webContents.send('main-process-message', new Date().toLocaleString());
 	});
 
 	ipcMain.handle('child-process-message', (_e, appName: string) => {
 		console.log(appName);
+	});
+
+	// 最小化窗口
+	ipcMain.handle('minimize-window', () => {
+		win.minimize();
+	});
+
+	ipcMain.handle('maximize-window', () => {
+		if (win.isMaximized()) {
+			win.unmaximize(); // 如果已最大化，则恢复
+		} else {
+			win.maximize(); // 最大化
+		}
+	});
+
+	ipcMain.handle('close-window', () => {
+		win.close(); // 关闭窗口
 	});
 
 	if (VITE_DEV_SERVER_URL) {

@@ -7,6 +7,21 @@ export default defineComponent({
             menuDynamicsIcon: squareIcon
         })
 
+        const methods = {
+            // 最小化窗口
+            onMinimize(){
+                window.ipcRenderer.invoke('minimize-window')
+            },
+            // 最大化
+            onMaximize(){
+                window.ipcRenderer.invoke('maximize-window')
+            },
+            // 关闭
+            onClose(){
+                window.ipcRenderer.invoke('close-window')
+            }
+        }
+
         onMounted(()=>{
             const headerDom = document.querySelector('.header') as HTMLDivElement
             const headerPlaceholderDom = document.querySelector('.header-placeholder') as HTMLDivElement
@@ -15,7 +30,8 @@ export default defineComponent({
         })
 
         return {
-            ...toRefs(state)
+            ...toRefs(state),
+            ...methods
         }
     }
 })

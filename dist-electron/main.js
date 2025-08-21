@@ -30,6 +30,19 @@ function createWindow() {
   ipcMain.handle("child-process-message", (_e, appName) => {
     console.log(appName);
   });
+  ipcMain.handle("minimize-window", () => {
+    win.minimize();
+  });
+  ipcMain.handle("maximize-window", () => {
+    if (win.isMaximized()) {
+      win.unmaximize();
+    } else {
+      win.maximize();
+    }
+  });
+  ipcMain.handle("close-window", () => {
+    win.close();
+  });
   if (VITE_DEV_SERVER_URL) {
     win.loadURL(VITE_DEV_SERVER_URL);
   } else {
