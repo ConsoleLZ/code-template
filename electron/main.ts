@@ -34,6 +34,7 @@ function createWindow() {
 		webPreferences: {
 			preload: path.join(__dirname, 'preload.mjs')
 		},
+		show: false
 	});
 
 	if (!isDev) {
@@ -42,6 +43,7 @@ function createWindow() {
 
 	// Test active push message to Renderer-process.
 	win.webContents.on('did-finish-load', () => {
+		win.show()
 		win?.webContents.send('main-process-message', new Date().toLocaleString());
 	});
 
@@ -70,3 +72,11 @@ app.on('activate', () => {
 });
 
 app.whenReady().then(createWindow);
+
+process.on('uncaughtException', error => {
+	console.log(error);
+	win.webContents.send('message', {
+		value: '发生未知错误',
+		success: false
+	});
+});

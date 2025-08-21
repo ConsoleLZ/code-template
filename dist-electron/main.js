@@ -17,12 +17,14 @@ function createWindow() {
     titleBarStyle: "hidden",
     webPreferences: {
       preload: path.join(__dirname, "preload.mjs")
-    }
+    },
+    show: false
   });
   if (!isDev) {
     win.setMenu(null);
   }
   win.webContents.on("did-finish-load", () => {
+    win.show();
     win == null ? void 0 : win.webContents.send("main-process-message", (/* @__PURE__ */ new Date()).toLocaleString());
   });
   ipcMain.handle("child-process-message", (_e, appName) => {
@@ -46,6 +48,13 @@ app.on("activate", () => {
   }
 });
 app.whenReady().then(createWindow);
+process.on("uncaughtException", (error) => {
+  console.log(error);
+  win.webContents.send("message", {
+    value: "发生未知错误",
+    success: false
+  });
+});
 export {
   MAIN_DIST,
   RENDERER_DIST,

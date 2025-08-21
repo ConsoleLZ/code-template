@@ -1,6 +1,6 @@
 .header {
     width: 100%;
-    height: fit-content;
+    height: 30px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -8,5 +8,20 @@
     left: 0;
     top: 0;
     padding: 5px;
-    background-color: bisque;
+    background-color: #E8E8E8;
+    /* -webkit-app-region: drag; */
+    z-index: 999;
+}
+
+.menu-item {
+    width: 30px;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 6px;
+}
+
+.menu-item:hover {
+    background-color: #c8c7c7;
 }
