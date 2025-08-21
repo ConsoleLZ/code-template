@@ -1,5 +1,5 @@
 <template>
-	<HeaderComp />
+	<winHeaderComp />
 	<div style="padding: 10px">
 		<div>欢迎使用electron + vue3 + vite框架</div>
 		<div>名称：{{ state.appName }}</div>
@@ -9,7 +9,7 @@
 </template>
 
 <script setup lang="ts">
-import HeaderComp from '@/components/header/index.vue';
+import winHeaderComp from '@/components/win-header/index.vue';
 
 const state = {
 	appName: __APP_NAME,
