@@ -5,6 +5,7 @@ import path from 'node:path';
 
 const require = createRequire(import.meta.url);
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const isDev = !app.isPackaged;
 
 // The built directory structure
 //
@@ -29,10 +30,15 @@ let win: BrowserWindow | null;
 function createWindow() {
 	win = new BrowserWindow({
 		icon: path.join(process.env.VITE_PUBLIC, 'electron-vite.svg'),
+		autoHideMenuBar: true,
 		webPreferences: {
 			preload: path.join(__dirname, 'preload.mjs')
 		}
 	});
+
+	if (!isDev) {
+		win.setMenu(null);
+	}
 
 	// Test active push message to Renderer-process.
 	win.webContents.on('did-finish-load', () => {
