@@ -2,6 +2,7 @@ import { app, BrowserWindow, ipcMain } from 'electron';
 import { createRequire } from 'node:module';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
+import { getPlatform } from './utils';
 
 const require = createRequire(import.meta.url);
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -44,6 +45,7 @@ function createWindow() {
 	// Test active push message to Renderer-process.
 	win.webContents.on('did-finish-load', () => {
 		win.show();
+		win.webContents.send('platform', getPlatform());
 	});
 
 	ipcMain.handle('child-process-message', (_e, appName: string) => {
@@ -56,16 +58,16 @@ function createWindow() {
 	});
 
 	ipcMain.handle('maximize-window', () => {
-		let hasMaximize = null
+		let hasMaximize = null;
 		if (win.isMaximized()) {
 			win.unmaximize(); // 如果已最大化，则恢复
-			hasMaximize = false
+			hasMaximize = false;
 		} else {
 			win.maximize(); // 最大化
-			hasMaximize = true
+			hasMaximize = true;
 		}
 
-		win.webContents.send('hasMaximize', hasMaximize)
+		win.webContents.send('hasMaximize', hasMaximize);
 	});
 
 	ipcMain.handle('close-window', () => {

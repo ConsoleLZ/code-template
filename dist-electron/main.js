@@ -2,6 +2,20 @@ import { app, BrowserWindow, ipcMain } from "electron";
 import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
+import os from "os";
+const getPlatform = () => {
+  const platform = os.platform();
+  switch (platform) {
+    case "win32":
+      return "Windows";
+    case "darwin":
+      return "macOS";
+    case "linux":
+      return "Linux";
+    default:
+      return "Unknown";
+  }
+};
 createRequire(import.meta.url);
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const isDev = !app.isPackaged;
@@ -25,6 +39,7 @@ function createWindow() {
   }
   win.webContents.on("did-finish-load", () => {
     win.show();
+    win.webContents.send("platform", getPlatform());
   });
   ipcMain.handle("child-process-message", (_e, appName) => {
     console.log(appName);

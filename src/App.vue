@@ -21,4 +21,8 @@ const methods = {
 		window.ipcRenderer.invoke('child-process-message', state.appName);
 	}
 };
+
+window.ipcRenderer.on('platform', (_e, platform)=>{
+	console.log(platform)
+})
 </script>
