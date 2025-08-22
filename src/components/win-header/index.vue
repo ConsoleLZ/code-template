@@ -1,7 +1,7 @@
 <template>
 	<div class="header">
 		<div class="flex-10">
-			<img src="@/assets/electron-vite.svg" width="25px" alt="" />
+			<img src="@/assets/logo.jpg" width="25px" alt="" />
             <div style="font-size: 12px;font-weight: 700;">标题</div>
 		</div>
 		<div class="flex-10" style="margin-right: 15px;">
