@@ -1,0 +1,30 @@
+@use "sass:map";
+
+$light: (
+    bg-color: #ffffff,
+    text-color: black
+);
+
+$dark: (
+    bg-color: #2c2c2c,
+    text-color: white
+);
+
+// 存储主题
+$themes: (
+    light: $light,
+    dark: $dark
+);
+
+@mixin theme($key, $value){
+  // 遍历当前主题  
+  @each $item in map.keys($themes) {
+      // 获取当前主题的颜色
+      $current-theme: map.get($themes, $item);
+      // 不同主题使用不同主题颜色
+      [data-theme='#{$item}'] &{
+          #{$key}: map.get($current-theme, $value);
+          transition: all 300ms;
+      }
+  }
+}

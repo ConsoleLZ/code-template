@@ -1,0 +1,28 @@
+.header {
+    width: 100%;
+    height: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    left: 0;
+    top: 0;
+    padding: 5px;
+    background-color: #E8E8E8;
+    -webkit-app-region: drag;
+    z-index: 999;
+}
+
+.menu-item {
+    width: fit-content;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 6px;
+    -webkit-app-region: no-drag;
+}
+
+.menu-item:hover {
+    background-color: #c8c7c7;
+}
