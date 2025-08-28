@@ -45,6 +45,7 @@ function createWindow() {
 	// Test active push message to Renderer-process.
 	win.webContents.on('did-finish-load', () => {
 		win.show();
+		win.webContents.send('hasMaximize', win.isMaximized());
 		win.webContents.send('platform', getPlatform());
 	});
 
