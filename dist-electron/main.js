@@ -39,6 +39,7 @@ function createWindow() {
   }
   win.webContents.on("did-finish-load", () => {
     win.show();
+    win.webContents.send("hasMaximize", win.isMaximized());
     win.webContents.send("platform", getPlatform());
   });
   ipcMain.handle("child-process-message", (_e, appName) => {
