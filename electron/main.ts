@@ -28,6 +28,32 @@ process.env.VITE_PUBLIC = VITE_DEV_SERVER_URL ? path.join(process.env.APP_ROOT, 
 
 let win: BrowserWindow | null;
 
+const gotTheLock = app.requestSingleInstanceLock();
+
+if (!gotTheLock) {
+	// 获取失败：说明已经有实例在运行，直接退出当前实例
+	app.quit();
+} else {
+	// 获取成功：监听是否有第二个实例启动
+	app.on('second-instance', (event, commandLine, workingDirectory) => {
+		// 当第二个实例运行时，这个回调会被触发
+		// 这时应该激活主窗口（比如从最小化恢复、置顶等）
+		if (win) {
+			if (win.isMinimized()) win.restore();
+			win.focus();
+		}
+	});
+
+	// 正常创建窗口
+	app.whenReady().then(() => {
+		createWindow();
+
+		app.on('activate', () => {
+			if (BrowserWindow.getAllWindows().length === 0) createWindow();
+		});
+	});
+}
+
 function createWindow() {
 	win = new BrowserWindow({
 		icon: path.join(process.env.VITE_PUBLIC, 'icon.ico'),
@@ -95,7 +121,7 @@ app.on('activate', () => {
 	}
 });
 
-app.whenReady().then(createWindow);
+// app.whenReady().then(createWindow);
 
 process.on('uncaughtException', error => {
 	console.log(error);
